@@ -1,16 +1,20 @@
+#import needed libraries
 import time
 from selenium import webdriver
 from bs4 import BeautifulSoup
 import pyautogui
 
+#set an empty array to store words
 words=[' ']
-browser = webdriver.Chrome()
 
+#opens a browser with that url
+browser = webdriver.Chrome()
 url ="https://humanbenchmark.com/tests/verbal-memory"
 browser.get(url)
 
 time.sleep(5)
 
+#getting the current word by finding the dic called word
 def get_word():
     page_source = browser.page_source
     soup = BeautifulSoup(page_source,'html.parser')
@@ -18,32 +22,27 @@ def get_word():
     text = ''.join([span.get_text() for span in spans])
     return text
 
+#press on seen when the word is seen and new when its new
 def press(SN):
-    #s666888
-    #n888888
     if SN =='S':
-        # print('SEEN')
         pyautogui.click(666,888)
     elif SN =='N':
-        # print('NEW')
         pyautogui.click(888,888)
 
 
 def main():
 
     while True:
-        print(words)
         word=get_word()
 
+        #check if the word is in the list and tell press function
         for i in range(len(words)):
-            # print(i,len(words))
             if word == words[i]:
-                # print(words[i],' ',word)
                 press('S')
                 break
             elif i == len(words)-1:
                 words.append(word)
                 press('N')
 
-
+#run main function
 main()
